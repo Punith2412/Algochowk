@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Trading Research — Option 1 Mini Prototype</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; }
+    .fade-in { animation: fadeIn 0.35s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+  <header class="bg-white border-b border-slate-200">
+    <div class="max-w-3xl mx-auto px-4 py-5">
+      <h1 class="text-xl font-bold text-slate-900">AI Trading Research Assistant</h1>
+      <p class="text-sm text-slate-500">Option 1 · Mini Prototype — Understand → Structure → Clarify missing info</p>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 py-8 space-y-8">
+
+    <!-- Input -->
+    <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+      <h2 class="text-lg font-semibold mb-1">Ask a research question</h2>
+      <p class="text-sm text-slate-500 mb-4">Example: “Does buying NIFTY after a 1% fall work better during high-volatility periods?”</p>
+      
+      <textarea id="question" rows="3"
+        class="w-full border border-slate-300 rounded-xl p-4 text-base focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
+        placeholder="Does buying NIFTY after a 1% fall work better during high-volatility periods?"></textarea>
+      
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button onclick="analyze()" 
+          class="bg-brand-600 hover:bg-brand-700 text-white font-medium px-5 py-2.5 rounded-xl transition">
+          Analyze Question
+        </button>
+        <button onclick="fillExample()" class="text-sm text-slate-500 hover:text-slate-700 px-3 py-2.5">
+          Use example
+        </button>
+      </div>
+    </section>
+
+    <!-- Analysis result (hidden until run) -->
+    <section id="result" class="hidden space-y-6 fade-in">
+
+      <!-- Extracted fields -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+        <h2 class="text-lg font-semibold mb-4">1. What we understood</h2>
+        <div id="extracted" class="grid sm:grid-cols-2 gap-3 text-sm"></div>
+      </div>
+
+      <!-- Missing information -->
+      <div id="missing-box" class="bg-amber-50 border border-amber-200 rounded-2xl p-6">
+        <h2 class="text-lg font-semibold text-amber-900 mb-2">2. Missing information</h2>
+        <p class="text-sm text-amber-800 mb-4">The system will not invent important parameters. Please clarify the following:</p>
+        <div id="missing-list" class="space-y-3"></div>
+        <button onclick="applyClarifications()" 
+          class="mt-5 bg-amber-600 hover:bg-amber-700 text-white font-medium px-5 py-2.5 rounded-xl transition">
+          Apply clarifications & show experiment
+        </button>
+      </div>
+
+      <!-- Final structured experiment -->
+      <div id="experiment-box" class="hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+        <h2 class="text-lg font-semibold mb-1">3. Structured Experiment</h2>
+        <p class="text-sm text-slate-500 mb-5">Ready to be passed to a backtesting engine.</p>
+        <div id="experiment" class="bg-slate-50 rounded-xl p-5 font-mono text-sm space-y-2 border border-slate-200"></div>
+        
+        <div class="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-xl text-sm text-blue-800">
+          <strong>Bonus note:</strong> This structured object can be sent directly to a backtesting engine. 
+          Example shape is shown in the console / can be exported as JSON.
+        </div>
+
+        <div class="mt-4 flex gap-3">
+          <button onclick="exportJSON()" class="text-sm bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-lg">
+            Export as JSON
+          </button>
+          <button onclick="resetAll()" class="text-sm text-slate-500 hover:text-slate-700 px-3 py-2">
+            Start over
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="text-center text-xs text-slate-400 py-8">
+    Option 1 Mini Prototype · Focused on understanding, structuring & handling ambiguity
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
